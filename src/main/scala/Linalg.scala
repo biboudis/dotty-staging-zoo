@@ -1,6 +1,8 @@
 import scala.quoted.Expr
 import dotty.tools.dotc.quoted.Runners._
 
+// Ported example from "The Design and Implementation of BER MetaOCaml" paper http://okmij.org/ftp/meta-programming/tutorial/loop_motion.ml
+
 object Linalg {
   trait Linalg {
     type tdom     // scalars
