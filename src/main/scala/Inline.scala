@@ -1,6 +1,6 @@
-import scala.quoted._
-
 object Test {
+  import scala.quoted.Expr
+  import dotty.tools.dotc.quoted.Runners._
 
   def plus1(i : Expr[Int]) = '(~i + 1)
 
