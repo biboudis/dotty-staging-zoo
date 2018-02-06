@@ -1,4 +1,8 @@
-## sbt project compiled with Dotty
+## Dotty Staging Zoo
+
+This is an sbt project compiled with [Dotty](dotty.epfl.ch) experimenting with staged code.
+
+Dotty's New Metaprogramming facility is described at [Principled Meta Programming](http://dotty.epfl.ch/docs/reference/principled-meta-programming.html).
 
 ### Usage
 
