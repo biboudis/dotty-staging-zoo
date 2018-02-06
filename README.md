@@ -1,4 +1,5 @@
 ## Dotty Staging Zoo
+[![Build Status](https://travis-ci.org/biboudis/dotty-staging-zoo.svg?branch=master)](https://travis-ci.org/biboudis/dotty-staging-zoo)
 
 This is an sbt project compiled with [Dotty](dotty.epfl.ch) experimenting with staged code.
 
