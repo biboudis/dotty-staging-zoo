@@ -12,6 +12,7 @@ object Linalg {
     type tmatrix  // matrix
 
     def scalar_mul(x: tdom, y: tdom): tdom
+    def scalar_sum(x: tdom, y: tdom): tdom
     def mat_dim(a: tmatrix): (tdim, tdim)
     def mat_get(a: tmatrix, i: tind, j: tind): tdom
     def mat_inc(a: tmatrix, i: tind, j: tind, el: tdom): tunit
@@ -21,7 +22,9 @@ object Linalg {
       loop(mat_dim(a)._1, (i: tind) => {
         loop(mat_dim(b)._1, (k: tind) => {
           loop(mat_dim(b)._2, (j: tind) => {
-            mat_inc(c, i, j, scalar_mul(mat_get(a, i, k), mat_get(b, k, j)))
+            mat_inc(c, i, j, 
+              scalar_mul(mat_get(a, i, k), 
+                         mat_get(b, k, j)))
           })
         })
       })
@@ -36,24 +39,23 @@ object Linalg {
     type tunit = Expr[Unit]
     type tmatrix = Expr[Array[Array[Int]]]
 
-    def scalar_mul(x: tdom, y: tdom): tdom = '{ ~x + ~y }
-    
-    def mat_get(a: tmatrix, i: tind, j: tind): tdom = '{(~a)(~i)(~j)}
+    def scalar_mul(x: tdom, y: tdom): tdom = '{ ~x * ~y }
+    def scalar_sum(x: tdom, y: tdom): tdom = '{ ~x + ~y }
+
+    def mat_get(a: tmatrix, i: tind, j: tind): tdom = '{ 
+      (~a)(~i)(~j) 
+    }
     
     def loop(n: tdim, body: (tind => tunit)) : tunit = '{
       var i = 0
-      val i_val = i
-      while (i_val < ~n) {
-        ~body('{i_val})
+      while (i < ~n) {
+        ~body('{i})
         i += 1
       }
     }
 
-    def mat_inc(a: tmatrix, i: tind, j: tind, v: tdom): tunit = '{      
-      val aa: Int = ~(mat_get(a, i, j))
-      val bb: Int = ~v
-      
-      (~a)(~i)(~j) = ~(aa + bb)
+    def mat_inc(a: tmatrix, i: tind, j: tind, v: tdom): tunit = '{  
+      (~a)(~i)(~j) = ~(scalar_sum(mat_get(a, i, j), v))
     }
 
     def mat_dim(a: tmatrix): (tdim, tdim) = ('{(~a).length}, '{(~a)(0).length}) 
